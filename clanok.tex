@@ -1,10 +1,10 @@
-%\documentclass[10pt,twoside,slovak,a4paper]{article}
-\documentclass[10pt,twocolumn,twoside,slovak,a4paper]{article}
+\documentclass[10pt,twoside,slovak,a4paper]{article}
 \usepackage[slovak]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{indentfirst}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{amsmath}
 \usepackage{cite}
 \usepackage{url}
 
@@ -34,16 +34,30 @@ Vo všeobecnosti, web crawler je program, ktorý systematicky skenuje web, sťah
 \newpage
 
 \begin{figure}
-	\centering
-	\begin{minipage}{0.4\textwidth}
-		\includegraphics[width=\textwidth]{diagram1.png}
-		\caption{Orientovaný graf reprezentujúci vzťah medzi webstránkami}
-	\end{minipage}
-	\begin{minipage}{0.4\textwidth}
-		\includegraphics[width=\textwidth]{diagram2.png}
-		\caption{Princíp získavania informácií web crawlerom \cite{sharma2011novel}}
-	\end{minipage}
+	\includegraphics[width=\textwidth]{diagram1.png}
+	\caption{Orientovaný graf reprezentujúci vzťah medzi webstránkami}
 \end{figure}
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{diagram2.png}
+	\caption{Princíp získavania informácií web crawlerom \cite{sharma2011novel}}
+\end{figure}
+
+Matica:
+$A=\begin{bmatrix}
+1  & 2  & 3  & 4  \\
+5  & 6  & 7  & 8  \\
+9  & 10 & 11 & 12 \\
+13 & 14 & 15 & 16 \\
+17 & 18 & 19 & 20
+\end{bmatrix}$
+
+\vspace{\baselineskip}
+
+Postupnosť:
+\begin{equation*}
+\left\{\frac{1}{n}\right\}^{\infty}_{n=1}=\left\{\frac{1}{1},\frac{1}{2},\frac{1}{3},\frac{1}{4},\frac{1}{5},\frac{1}{6},\frac{1}{7},\frac{1}{8},\frac{1}{9},\frac{1}{10},\frac{1}{11},\frac{1}{12},\frac{1}{13},\frac{1}{14},\frac{1}{15},\frac{1}{16},\frac{1}{17}\ldots\right\}
+\end{equation*}
 
 \section{Porovnanie rýchlosti}
 Exituje mnoho spôsobov ako implementovať samotné procesy jednolivých web crawlerov. V tomto odseku, ale porovnáme rozdiely vo výkone web crawlerov, ktoré boli vytvorené pomocou procesov, threadov (vlákien) a systémového volania \texttt{epoll} (poskytovaného Linuxovým jadrom), napísané v programovacom jazyku C++ \cite{9648837}. \\
