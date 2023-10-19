@@ -7,24 +7,20 @@
 \usepackage{cite}
 \usepackage{url}
 
-\graphicspath{{./data/}}
+\graphicspath{{data}}
 \pagestyle{headings}
 
 \title{Paralelný web crawler\thanks{Semestrálny projekt v predmete Metódy inžinierskej práce ak. rok 2023/24, vedenie: Ing. Richard Marko, PhD.}}
 
-\author{Peter Kapusta\\[2pt]
-	{\small Slovenská technická univerzita v Bratislave}\\
-	{\small Fakulta informatiky a informačných technológií}\\
-	{\small \texttt{xkapustap@stuba.sk}}
+\author{Peter Kapusta \\
+	\small Slovenská technická univerzita v Bratislave \\
+	\small Fakulta informatiky a informačných technológií \\
+	\small \texttt{xkapustap@stuba.sk}
 }
 
 \begin{document}
 
 \maketitle
-
-%\begin{center}
-%	\includegraphics[scale=0.5]{STU-FIIT-nfh.png}
-%\end{center}
 
 \begin{abstract}
 V článku je vysvetlené využitie paralelných web crawlerov, problematika komunikácie medzi jednotlivými procesmi a sú uvedené riešenia, ktoré sa momentálne využívajú.
@@ -35,6 +31,12 @@ V článku je vysvetlené využitie paralelných web crawlerov, problematika kom
 Vo všeobecnosti, web crawler je program, ktorý systematicky skenuje web, sťahuje webstránky a následne z nich extrahuje informácie, ktoré môže neskôr využiť napr. prehliadač. Cieľom je teda čo najefektívnejšie a najrýchlejšie objaviť čo najväčšie množstvo informácií. Hlavnou ťažkosťou je prehľadávanie HTML kódu a získavanie využiteľných odkazov, ktoré vedú k novým webstránkam. Čo ale robí paralelizované web crawlery špeciálnymi, je ich schopnosť súčasne získavať tieto dokazy z rôznych zdrojov, bez toho, aby sa osobitné procesy prekrývali – tým sa čo najoptimálnejšie využije maximálna rýchlosť sťahovania na danej siete. Internet môžeme vnímať ako orientovaný graf, ktorého vrcholy sú reprezentované jednotlivými webstránkami a hrany tvoria odkazy medzi nimi \cite{7148493}. Úlohou paralelného crawleru je teda prechádzať týmto grafom viacerými procesmi.
 
 \newpage
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{diagram.png}
+	\caption{Orientovaný graf reprezentujúci vzťah medzi webstránkami}
+\end{figure}
 
 \section{Porovnanie rýchlosti}
 Exituje mnoho spôsobov ako implementovať samotné procesy jednolivých web crawlerov. V tomto odseku, ale porovnáme rozdiely vo výkone web crawlerov, ktoré boli vytvorené pomocou procesov, threadov (vlákien) a systémového volania \texttt{epoll} (poskytovaného Linuxovým jadrom), napísané v programovacom jazyku C++ \cite{9648837}. \\
@@ -47,12 +49,12 @@ Paralelné web crawlery sa skladajú z viacerý komponentov, ktoré sa dajú zre
 
 \begin{enumerate}
 	\item Viacvláknový server - Koordinuje činnosť jednotlivých klientov.
-	\item Klienty - Jednotlivé počítače, ktoré sťahujú web stránky.
-	\item Crawlovací systém - Program, ktorý zaisťuje aby web stránky neboli sťahované opakovane.
+	\item Klienty - Jednotlivé počítače, ktoré sťahujú webstránky.
+	\item Crawlovací systém - Program, ktorý zaisťuje aby webstránky neboli sťahované opakovane.
 \end{enumerate}
 
 \section{Existujúce riešenia}
-	\subsection{Crawler typu „C-procs" \cite{sharma2011novel}} % Vyslevtliť fungovanie a výhody podľa zdroja
+	\subsection{Crawler typu „C-procs" \cite{sharma2011novel}} % Vysvetliť fungovanie a výhody podľa zdroja
 
 \newpage
 
