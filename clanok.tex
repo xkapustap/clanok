@@ -4,7 +4,6 @@
 \usepackage{indentfirst}
 \usepackage{graphicx}
 \usepackage{hyperref}
-\usepackage{amsmath}
 \usepackage{cite}
 \usepackage{url}
 
@@ -14,9 +13,9 @@
 \title{Paralelný web crawler\thanks{Semestrálny projekt v predmete Metódy inžinierskej práce ak. rok 2023/24, vedenie: Ing. Richard Marko, PhD.}}
 
 \author{Peter Kapusta \\
-	\small Slovenská technická univerzita v Bratislave \\
-	\small Fakulta informatiky a informačných technológií \\
-	\small \texttt{xkapustap@stuba.sk}
+    \small Slovenská technická univerzita v Bratislave \\
+    \small Fakulta informatiky a informačných technológií \\
+    \small \texttt{xkapustap@stuba.sk}
 }
 
 \begin{document}
@@ -24,62 +23,108 @@
 \maketitle
 
 \begin{abstract}
-V článku je vysvetlené využitie paralelných web crawlerov, problematika komunikácie medzi jednotlivými procesmi a sú uvedené riešenia, ktoré sa momentálne využívajú.
+    V nasledujúcom článku sa budeme zaoberať využitím paralelných web crawlerov, ako aj problémom optimalizácie (spolu s metódou, ako odľahčiť dopad web crawlerov na jednotlivé webstránky), postupne uvedieme niekoľko riešení, ktoré sa momentálne využívajú a ich spôsoby komunikácie medzi jednotlivými inštanciami.
 \end{abstract}
 
 \section{Úvod}
 
-Vo všeobecnosti, web crawler je program, ktorý systematicky skenuje web, sťahuje webstránky a následne z nich extrahuje informácie, ktoré môže neskôr využiť napr. prehliadač. Cieľom je teda čo najefektívnejšie a najrýchlejšie objaviť čo najväčšie množstvo informácií. Hlavnou ťažkosťou je prehľadávanie HTML kódu a získavanie využiteľných odkazov, ktoré vedú k novým webstránkam. Čo ale robí paralelizované web crawlery špeciálnymi, je ich schopnosť súčasne získavať tieto dokazy z rôznych zdrojov, bez toho, aby sa osobitné procesy prekrývali – tým sa čo najoptimálnejšie využije maximálna rýchlosť sťahovania na danej siete. Internet môžeme vnímať ako orientovaný graf, ktorého vrcholy sú reprezentované jednotlivými webstránkami a hrany tvoria odkazy medzi nimi \cite{7148493}. Úlohou paralelného crawleru je teda prechádzať týmto grafom viacerými procesmi.
+Vo všeobecnosti, web crawler je program, ktorý systematicky skenuje web, objavuje webstránky a následne z nich extrahuje informácie a odkazy, ktoré vedú k novým webstránkam. Cieľom je teda čo najefektívnejšie a najrýchlejšie objaviť čo najväčšie množstvo informácií, ktoré môže neskôr využiť napríklad prehliadač. Hlavnými ťažkosťami sa pri jednoduchých web crawleroch stávajú prehľadávanie HTML kódu a získavanie využiteľných odkazov, čo však na prehľadanie a indexovanie celého internetu nestačí - vzniká potreba pre sťahovanie a spracovanie masívneho množstva informácií. Pre vyriešenie tohto problému je treba použiť viac ako jeden crawler. Tu prichádzajú do hry paralelizované web crawlery, ktoré sú výnimočné ich schopnosťou súčasne získavať odkazy z rôznych zdrojov, pomocou osobitných inštancií, bez toho, aby sa prekrývali – tým sa čo najoptimálnejšie využije maximálna rýchlosť sťahovania na danej sieti.
+
+Pri práci s paralelnými web crawlermi je vhodné mať jasný obraz o tom, čo sú vlastne inštancie, ako vyzerajú vzťahy medzi nimi a ako sa medzi sebou prepájajú webstránky, ktorými musia inštancie prechádzať. Pre uľahčenie tohto cieľa si definujeme nasledovné pojmy: Internet môžeme vnímať ako orientovaný graf, ktorého vrcholy sú reprezentované jednotlivými webstránkami a hrany tvoria odkazy medzi nimi \cite{7148493}. Inštancia je proces, ktorý asynchrónne prehľadáva internet a snaží sa nájsť prepojenia, ktoré ho dovedú k novým, ešte neobjaveným informáciam. Úlohou paralelného web crawleru je teda optimálne prechádzať komplexným internetovým grafom, a to pomocou viacerých inštancií, bez toho, aby sa ich cesty krížili.
 
 \newpage
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{diagram1.png}
-	\caption{Orientovaný graf reprezentujúci vzťah medzi webstránkami}
+    \centering
+    \includegraphics[width=\linewidth]{diagram1.png}
+    \caption{Orientovaný graf reprezentujúci vzťah medzi webstránkami}
 \end{figure}
 
 \begin{figure}
-	\includegraphics[width=\textwidth]{diagram2.png}
-	\caption{Princíp získavania informácií web crawlerom \cite{sharma2011novel}}
+    \centering
+    \includegraphics[width=\linewidth]{diagram2.png}
+    \caption{Princíp získavania informácií web crawlerom \cite{kausar2013web}}
 \end{figure}
-
-Matica:
-$A=\begin{bmatrix}
-1  & 2  & 3  & 4  \\
-5  & 6  & 7  & 8  \\
-9  & 10 & 11 & 12 \\
-13 & 14 & 15 & 16 \\
-17 & 18 & 19 & 20
-\end{bmatrix}$
-
-\vspace{\baselineskip}
-
-Postupnosť:
-\begin{equation*}
-\left\{\frac{1}{n}\right\}^{\infty}_{n=1}=\left\{\frac{1}{1},\frac{1}{2},\frac{1}{3},\frac{1}{4},\frac{1}{5},\frac{1}{6},\frac{1}{7},\frac{1}{8},\frac{1}{9},\frac{1}{10},\frac{1}{11},\frac{1}{12},\frac{1}{13},\frac{1}{14},\frac{1}{15},\frac{1}{16},\frac{1}{17}\ldots\right\}
-\end{equation*}
 
 \section{Porovnanie rýchlosti}
-Exituje mnoho spôsobov ako implementovať samotné procesy jednolivých web crawlerov. V tomto odseku, ale porovnáme rozdiely vo výkone web crawlerov, ktoré boli vytvorené pomocou procesov, threadov (vlákien) a systémového volania \texttt{epoll} (poskytovaného Linuxovým jadrom), napísané v programovacom jazyku C++ \cite{9648837}. \\
 
-Jazyk C++ bol vybraný pre knižnicu \texttt{pthreads}, ktorá je v ňom dostupná \cite{9648837}. 
+\subsection{Podmienky pri testovaní}
 
-\section{Zloženie}
+Princíp fungovania paralelných web crawlerov vyžaduje implementáciu, ktorá je rýchla a nenáročná na zdroje. Táto požiadavka sa stáva nevyhnutnosťou, vzhľadom na to, že indexovaný web obsahuje minimálne 5,27 miliárd webstránok \cite{9648837}. Exituje mnoho spôsobov, ako implementovať samotné procesy jednolivých web crawlerov. V tejto časti porovnáme rozdiely vo výkone web crawlerov, ktoré boli vytvorené pomocou procesov, threadov (vlákien) a systémového volania \texttt{epoll} \footnote{Rozhranie poskytované linuxovým jadrom, určené pre oznamovanie I/O udalostí \cite{kerrisk2010linux}}, napísané v programovacom jazyku C++ (vybraný pre rýchlosť a knižnicu \texttt{pthreads}, ktorá je v ňom dostupná) \cite{9648837}.
 
-Paralelné web crawlery sa skladajú z viacerý komponentov, ktoré sa dajú zrealizovať viacerými spôsobmi. \cite{9645918} \cite{kausar2013web} % Vysvetliť, že jednotlivé crawlery môžu byť spustené na rôznych počítačoch \cite{sharma2011novel}
+Pri testovaní implementácií, parametre ako kompilátor (GCC 9.3.0), webserver (operačný systém Ubuntu 20.04 LTS a serverový softvér NGINX), programovací jazyk (C++) a optimizácie pri kompilácii (\texttt{O3} \footnote{Stupeň optimalizácie kompilátora GCC určený pre zvýšenie rýchlosti programu \cite{stallman2009using}}) zostávajú nezmenené. Testy budú spočívať v rýchlosti stiahnutia 132094 HTML súborov, ktoré sú uložené na serveri, s rozložením veľkostí podľa nasledujúceho grafu \cite{9648837}:
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{dataset.png}
+    \caption{Graf distribúcie veľkosti HTML súborov. \cite{9648837}}
+\end{figure}
+
+\subsection{Podrobnosti implementácií}
+
+Implementácia, ktorá využíva procesy, ich vytvára pomocou systémového volania \texttt{fork} \footnote{Funkcia, ktorá vytvorí z rodičovského procesu nový proces (program sa rozdvojí) \cite{kerrisk2010linux}} - zároveň využíva aj funkcie \texttt{mmap} a \texttt{pthreads} pre zjednodušenie synchronizácie procesov. Počet inštancií pre jednotlivé implementácie bol vybraný tak, aby každá implementácia dovŕšila jej najväčší možný výkon \cite{9648837}.
+
+\subsection{Výsledky}
+
+Z experimentov napokon vyplývajú nasledujúce výsledky (v poradí od najrýchlšej implementácie po najpomalšiu) \cite{9648837}:
 
 \begin{enumerate}
-	\item Viacvláknový server - Koordinuje činnosť jednotlivých klientov.
-	\item Klienty - Jednotlivé počítače, ktoré sťahujú webstránky.
-	\item Crawlovací systém - Program, ktorý zaisťuje aby webstránky neboli sťahované opakovane.
+    \item Systémové volanie \texttt{epoll}
+    \item Thready (vlákna)
+    \item Procesy
 \end{enumerate}
 
-\section{Existujúce riešenia}
-	\subsection{Crawler typu „C-procs" \cite{sharma2011novel}} % Vysvetliť fungovanie a výhody podľa zdroja
+Môžeme konštatovať, že systémové volanie \texttt{epoll} je najrýchlejšie v porovnaní s ostatnými testovanými implementáciami. Má aj nevýhody - \texttt{epoll} je dostupný iba na linuxovom jadre (existujú aj alternatívy dostupné v iných jadrách, ako napríklad \texttt{kqueue} na BSD systémoch), rovnako je ho ťažké implementovať, čo môže mať za následok chyby a bezpečnostné problémy. Thready majú síce nižší výkon, ale je ich ľahšie naprogramovať. Nakoniec implementácia pomocou procesov je síce najpomalšia, ale pre využitia, kde najvyššia možná rýchlosť nie je na prvom mieste, je postačujúca. \cite{9648837}
+
+\section{Zníženie záťaže na servery}
+
+\subsection{Princíp a implementácia}
+
+40\% prenosu dát internetom je spôsobených web crawlermi, preto by bolo vhodné nájsť riešenie nielen pre sťahovanie čo najväčšieho množstva dát, ale aj pre minimalizáciu opätovného sťahovania webstránok, ktoré už máme v databáze, za účelom aktualizovania ich obsahu. Riešenie spočíva v pridaní súboru UPDATE do každej webstránky na internete. Tento súbor by obsahoval odkazy na adresáry webstránky, kde nastala zmena \cite{mishra2010smart}.
+
+Algoritmus crawlovania \cite{mishra2010smart}:
+
+\begin{enumerate}
+    \item Crawler po prvýkrát navštívi webstránku a stiahne celý adresár (podľa súboru \texttt{robots.txt} \footnote{Súbor, ktorý oznamuje web crawlerom, ktoré časti webstránky môže alebo nemôže indexovať})
+    \item Pre aktualizáciu databázy crawler najskôr navštívi súbor UPDATE
+    \item Porovná ho s UPDATE súborom z poslednej návštevy webstránky
+    \item Ak sú súbory rôzne, crawler stiahne aktualizované stránky a uloží ich do databázy
+\end{enumerate}
+
+Súbor môže samozrejme pridať len sám vlastník stránky, čo by vyžadovalo veľkú úroveň koordinácie. Zo strany vlastníkov to má však výhodu - ich server nie je zaplavený žiadosťami o stiahnutie celého adresára, čo znižuje nároky na údržbu. Namiesto toho, aby crawlery zakaždým sťahovali celý adresár, stačí im overiť si UPDATE súbor. Zo strany crawlerov vzniká výhoda, že nedochádza k časovo náročnému prehľadávaniu webstránky, ktorej najnovšiu verziu už majú v databáze \cite{mishra2010smart}.
+
+Existencia súboru \texttt{robots.txt} vo veľkom množstve webstránok dokazuje, že je možné takéto riešenie implementovať. Každý web crawler by mal byť schopný prehľadávať HTML kód, a každý vlastník webstránky by mal byť schopný upravovať súbor s HTML kódom, obsahujúci aktualizácie jeho webstránky. Preto by sa mal aj UPDATE súbor skladať z HTML \cite{mishra2010smart}. 
+
+\subsection{Simulácia a výhody}
+
+V experimente bola otestovaná teória stiahnutím najprv celého adresára webstránky, potom pomocou súboru UPDATE s jednou, dvomi a tromi aktualizáciami. Z výsledkov vyplýva, že so súborom s jednou aktualizáciou sa dokopy stiahne 6,5-krát menej stránok ako bez neho \cite{mishra2010smart}.
+
+Implementácia UPDATE súboru nevyžaduje sťahovanie žiadnych nových programov zo strany vlastníkov a úprava softvéru crawlerov je minimálna. Je to celkovo veľmi optimálne riešenie problému nadmerného toku crawlerov na internete \cite{mishra2010smart}.
+
+\section{Moderné riešenia}
+
+\subsection{C-proc}
+
+Paralelné web crawlery sa skladajú z viacerých komponentov, ktoré sa dajú zrealizovať viacerými spôsobmi. Jeden z takých spôsobov je vytvorený pomocou crawlovacích inštancií C-proc. Každý C-proc je oddelený proces, ktorý nezávislo prehľadáva web. Výhodou takejto architektúry je zníženie záťaže na lokálne siete, pretože každý C-proc môže bežať na inej sieti. Jednotlivé inštancie sú ovládané centrálnym programom na správu crawlerov \cite{sharma2011novel}.
+
+Paralelné web crawlery typu C-proc sa rozdeľujú na nasledovné časti \cite{9645918, sharma2011novel}:
+
+\begin{enumerate}
+    \item Viacvláknový server - Koordinuje činnosť jednotlivých klientov.
+        \begin{enumerate}
+            \item URL Dispatcher
+            \item DNS Resolver
+            \item URL Mapper
+        \end{enumerate}
+        \item Inštancie crawlerov - Jednotlivé programy C-proc, ktoré sťahujú webstránky
+\end{enumerate}
+
+\subsection{Ergate}
+
+Paralelný web crawler Ergate funguje na podobnom princípe ako C-proc, ale odstraňuje problém spoliehania sa na jeden program, ktorý riadi všetky inštancie. Tento cieľ je dosiahnutý pomocou distribuovanej architektúry, zloženej z kontrolného systému a systému na sťahovanie stránok - každý z týchto systémov sa môže skladať z viacerých inštancií ovládačov a crawlerov. Jednotlivé časti komunikujú medzi sebou cez MPI \footnote{Message Passing Interface - rozhranie na komunikáciu medzi procesmi} a celok sa nazýva Cluster \cite{5709184}.
 
 \newpage
 
-\nocite{*}
 \bibliography{literatura}
 \bibliographystyle{unsrt}
 
