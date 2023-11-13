@@ -131,6 +131,8 @@ Paralelné web crawlery typu C-proc sa rozdeľujú nasledovne \cite{9645918, sha
 
 Paralelný web crawler Ergate funguje na podobnom princípe ako C-proc, ale odstraňuje problém spoliehania sa na jeden program, ktorý riadi všetky inštancie. Tento cieľ je dosiahnutý pomocou distribuovanej architektúry, zloženej z kontrolného systému a systému na sťahovanie webstránok - každý z týchto systémov sa môže skladať z viacerých inštancií ovládačov a web crawlerov. Jednotlivé časti komunikujú medzi sebou cez MPI \footnote{Message Passing Interface - rozhranie na komunikáciu medzi procesmi} a celok sa nazýva Cluster. Jednou z kľúčových vlastností Ergate je jeho schopnosť rozložiť záťaž na viacero počítačov, čo zvyšuje jeho efektivitu a umožňuje rýchlejšiu extrakciu údajov, čo vedie k výraznej úspore času v porovnaní s tradičnými paralelnými web crawlermi. Využitím distribuovaného prístupu dokáže Ergate spracovať veľké množstvo údajov, vďaka čomu je ideálny na extrahovanie informácií z webstránok s veľkým adresárom \cite{5709184}.
 
+\section{Paralelné web crawlery a spoločnosť}
+
 \paragraph{Technológia a ľudia}
 
 V nekonečne sa rozširujúcom internete, paralelné web crawlery hrajú rolu navigátorov, bez ktorých by bolo oveľa ťažšie v globalizovanom svete fungovať. Mohli by sa teda paralelné web crawlery považovať za najdôležitejšiu časť internetu? Technológia poskytuje nástroje a infraštruktúru potrebnú na paralelizáciu, čo umožňuje rozsiahle zhromažďovanie údajov. Ľudia sú však zodpovední za navrhovanie, programovanie a monitorovanie týchto nástrojov, robia kritické rozhodnutia o ich správaní a zabezpečujú, že sú v súlade s etickými zásadami. Ľudská účasť je rozhodujúca pri vytváraní algoritmov, ktoré efektívne rozdeľujú úlohy prehľadávania, spravujú oneskorenia pri extrakcií odkazov s cieľom dodržiavať pravidlá webstránok a vyhýbajú sa nadmernej spotrebe dát na sieti. Paralelné web crawlery môžeme teda považovať za nevyhnutný nástroj na využitie niečoho, čo vzniklo vďaka ľuďom, ktorí vytvorili internet. Sú súčasťou internetu, ale nie sú jeho najdôležitejšou časťou - tvoria jeden celok, ktorého časti sú rovnako dôležité.
@@ -138,6 +140,10 @@ V nekonečne sa rozširujúcom internete, paralelné web crawlery hrajú rolu na
 \paragraph{Spoločenské súvislosti}
 
 Paralelné web crawlery sa dajú používať aj na osobnú zábavu. Jednotlivci môžu vytvárať paralelné web crawlery na získavanie webstránok a zhromažďovanie mediálneho obsahu, ako sú obrázky, videá alebo súbory GIF, do svojich osobných zbierok. Toto použitie je bežné najmä medzi umelcami, dizajnérmi alebo nadšencami vizuálnych médií, ktorí hľadajú inšpiráciu alebo jednoducho radi budujú osobné archívy \cite{pennock2013web}. Ďalším využitím je zhromažďovanie konkrétnych informácií z viacerých zdrojov. Napríklad vedci a študenti môžu využívať paralelné web crawlery na získavanie relevantných údajov pre svoje štúdie. Umožňujú im analyzovať veľké množstvo údajov a vyvodzovať zmysluplné závery bez toho, aby museli manuálne navštevovať veľký počet webstránok, čo šetrí čas aj námahu.
+
+\paragraph{Udržateľnosť a etika}
+
+Napriek svojim výhodám, paralelné web crawlery predstavujú určité výzvy z etického hľadiska. Niektorí jednotlivci ich využívajú na zhromažďovanie osobných údajov, ako sú e-mailové adresy, telefónne čísla alebo profily sociálnych médií, na marketingové alebo dokonca škodlivé účely. Rozsiahlosť zhromaždených informácií teda ohrozuje súkromie používateľov, čo si vyžaduje bezpečnostné opatrenia a právne rámce na ich ochranu (ako napríklad GDPR v Európskej Únií). Okrem toho je kritické predísť neobjektívnemu obsahu a zabezpečiť presnosť a dôveryhodnosť získaných informácií. S cieľom riešiť tieto problémy, mnohé webstránky zaviedli opatrenia na obmedzenie alebo kontrolu prístupu web crawlerov, ako napríklad súbory robots.txt, CAPTCHA a rôzne časové limity \cite{thelwall2006web}.
 
 \section{Záver}
 
