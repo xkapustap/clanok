@@ -39,13 +39,13 @@ Na začiatku boli sekvenčné web crawlery štandardom. Fungujú tak, že prech�
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=\linewidth]{diagram1.png}
-    \caption{Orientovaný graf reprezentujúci vzťah medzi webstránkami}
+    \caption{Orientovaný graf reprezentujúci vzťah medzi webstránkami.}
 \end{figure}
 
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=\linewidth]{diagram2.png}
-    \caption{Princíp získavania informácií web crawlerom \cite{kausar2013web}}
+    \caption{Princíp získavania informácií web crawlerom \cite{kausar2013web}.}
 \end{figure}
 
 \newpage
@@ -54,9 +54,9 @@ Na začiatku boli sekvenčné web crawlery štandardom. Fungujú tak, že prech�
 
 \subsection{Podmienky pri testovaní}
 
-Princíp fungovania paralelných web crawlerov vyžaduje implementáciu, ktorá je rýchla a nenáročná na zdroje. Táto požiadavka sa stáva nevyhnutnosťou, vzhľadom na to, že indexovaný web obsahuje minimálne 5,27 miliárd webstránok \cite{9648837}. Exituje mnoho spôsobov, ako implementovať samotné procesy jednolivých web crawlerov. V tejto časti porovnáme rozdiely vo výkone web crawlerov, ktoré boli vytvorené pomocou procesov, threadov (vlákien) a systémového volania \texttt{epoll} \footnote{Rozhranie poskytované linuxovým jadrom, určené pre oznamovanie I/O udalostí \cite{kerrisk2010linux}}, napísané v programovacom jazyku C++ (vybraný pre rýchlosť a knižnicu \texttt{pthreads}, ktorá je v ňom dostupná) \cite{9648837}.
+Princíp fungovania paralelných web crawlerov vyžaduje implementáciu, ktorá je rýchla a nenáročná na zdroje. Táto požiadavka sa stáva nevyhnutnosťou, vzhľadom na to, že indexovaný web obsahuje minimálne 5,27 miliárd webstránok \cite{9648837}. Exituje mnoho spôsobov, ako implementovať samotné procesy jednolivých web crawlerov. V tejto časti porovnáme rozdiely vo výkone web crawlerov, ktoré boli vytvorené pomocou procesov, threadov (vlákien) a systémového volania \texttt{epoll} \footnote{Rozhranie poskytované linuxovým jadrom, určené pre oznamovanie I/O udalostí \cite{kerrisk2010linux}.}, napísané v programovacom jazyku C++ (vybraný pre rýchlosť a knižnicu \texttt{pthreads}, ktorá je v ňom dostupná) \cite{9648837}.
 
-Pri testovaní implementácií, parametre ako kompilátor (GCC 9.3.0), webserver (operačný systém Ubuntu 20.04 LTS a serverový softvér NGINX), programovací jazyk (C++) a optimizácie pri kompilácii (\texttt{O3} \footnote{Stupeň optimalizácie kompilátora GCC určený pre zvýšenie rýchlosti programu \cite{stallman2009using}}) zostávajú nezmenené. Testy budú spočívať v rýchlosti stiahnutia 132 094 HTML súborov, ktoré sú uložené na serveri, s rozložením veľkostí podľa nasledujúceho grafu \cite{9648837}:
+Pri testovaní implementácií, parametre ako kompilátor (GCC 9.3.0), webserver (operačný systém Ubuntu 20.04 LTS a serverový softvér NGINX), programovací jazyk (C++) a optimizácie pri kompilácii (\texttt{O3} \footnote{Stupeň optimalizácie kompilátora GCC určený pre zvýšenie rýchlosti programu \cite{stallman2009using}.}) zostávajú nezmenené. Testy budú spočívať v rýchlosti stiahnutia 132 094 HTML súborov, ktoré sú uložené na serveri, s rozložením veľkostí podľa nasledujúceho grafu \cite{9648837}:
 
 \begin{figure}[hbt!]
     \centering
@@ -66,7 +66,7 @@ Pri testovaní implementácií, parametre ako kompilátor (GCC 9.3.0), webserver
 
 \subsection{Podrobnosti implementácií}
 
-Implementácia, ktorá využíva procesy, ich vytvára pomocou systémového volania \texttt{fork} \footnote{Funkcia, ktorá vytvorí z rodičovského procesu nový proces (program sa rozdvojí) \cite{kerrisk2010linux}} - zároveň využíva aj funkcie \texttt{mmap} a \texttt{pthreads} pre zjednodušenie synchronizácie procesov. Počet inštancií pre jednotlivé implementácie bol vybraný tak, aby každá implementácia dovŕšila jej najväčší možný výkon \cite{9648837}.
+Implementácia, ktorá využíva procesy, ich vytvára pomocou systémového volania \texttt{fork} \footnote{Funkcia, ktorá vytvorí z rodičovského procesu nový proces (program sa rozdvojí) \cite{kerrisk2010linux}.} - zároveň využíva aj funkcie \texttt{mmap} a \texttt{pthreads} pre zjednodušenie synchronizácie procesov. Počet inštancií pre jednotlivé implementácie bol vybraný tak, aby každá implementácia dovŕšila jej najväčší možný výkon \cite{9648837}.
 
 \subsection{Výsledky}
 
@@ -93,7 +93,7 @@ Môžeme konštatovať, že systémové volanie \texttt{epoll} je najrýchlejši
 Algoritmus crawlovania \cite{mishra2010smart}:
 
 \begin{enumerate}
-    \item Web crawler po prvýkrát navštívi webstránku a stiahne celý adresár (podľa súboru \texttt{robots.txt} \footnote{Súbor, ktorý oznamuje web crawlerom, ktoré časti webstránky môže indexovať})
+    \item Web crawler po prvýkrát navštívi webstránku a stiahne celý adresár (podľa súboru \texttt{robots.txt} \footnote{Súbor, ktorý oznamuje web crawlerom, ktoré časti webstránky môže indexovať.})
     \item Pre aktualizáciu databázy web crawler najskôr navštívi súbor UPDATE
     \item Porovná ho s UPDATE súborom z poslednej návštevy webstránky
     \item Ak sú súbory rôzne, web crawler stiahne aktualizované webstránky a uloží ich do databázy
@@ -101,7 +101,7 @@ Algoritmus crawlovania \cite{mishra2010smart}:
 
 Súbor môže samozrejme pridať len sám vlastník webstránky, čo by vyžadovalo veľkú úroveň koordinácie. Zo strany vlastníkov to má však výhodu - ich server nie je zaplavený žiadosťami o stiahnutie celého adresára, čo znižuje nároky na údržbu. Namiesto toho, aby web crawlery zakaždým sťahovali celý adresár, stačí im overiť si UPDATE súbor. Zo strany web crawlerov vzniká výhoda, že nedochádza k časovo náročnému prehľadávaniu webstránky, ktorej najnovšiu verziu už majú v databáze \cite{mishra2010smart}.
 
-Existencia súboru \texttt{robots.txt} vo veľkom množstve webstránok dokazuje, že je možné takéto riešenie implementovať. Každý web crawler by mal byť schopný prehľadávať HTML kód, a každý vlastník webstránky by mal byť schopný upravovať súbor s HTML kódom, obsahujúci aktualizácie jeho webstránky. Preto by sa mal aj UPDATE súbor skladať z HTML \cite{mishra2010smart}. 
+Existencia súboru \texttt{robots.txt} vo veľkom množstve webstránok dokazuje, že je možné takéto riešenie implementovať. Každý web crawler by mal byť schopný prehľadávať HTML kód a každý vlastník webstránky by mal byť schopný upravovať súbor s HTML kódom obsahujúci aktualizácie jeho webstránky. Preto by sa mal aj UPDATE súbor skladať z HTML \cite{mishra2010smart}. 
 
 \subsection{Simulácia a výhody}
 
@@ -129,25 +129,25 @@ Paralelné web crawlery typu C-proc sa rozdeľujú nasledovne \cite{9645918, sha
 
 \subsection{Ergate}
 
-Paralelný web crawler Ergate funguje na podobnom princípe ako C-proc, ale odstraňuje problém spoliehania sa na jeden program, ktorý riadi všetky inštancie. Tento cieľ je dosiahnutý pomocou distribuovanej architektúry, zloženej z kontrolného systému a systému na sťahovanie webstránok - každý z týchto systémov sa môže skladať z viacerých inštancií ovládačov a web crawlerov. Jednotlivé časti komunikujú medzi sebou cez MPI \footnote{Message Passing Interface - rozhranie na komunikáciu medzi procesmi} a celok sa nazýva Cluster. Jednou z kľúčových vlastností Ergate je jeho schopnosť rozložiť záťaž na viacero počítačov, čo zvyšuje jeho efektivitu a umožňuje rýchlejšiu extrakciu údajov, čo vedie k výraznej úspore času v porovnaní s tradičnými paralelnými web crawlermi. Využitím distribuovaného prístupu dokáže Ergate spracovať veľké množstvo údajov, vďaka čomu je ideálny na extrahovanie informácií z webstránok s veľkým adresárom \cite{5709184}.
+Paralelný web crawler Ergate funguje na podobnom princípe ako C-proc, ale odstraňuje problém spoliehania sa na jeden program, ktorý riadi všetky inštancie. Tento cieľ je dosiahnutý pomocou distribuovanej architektúry, zloženej z kontrolného systému a systému na sťahovanie webstránok - každý z týchto systémov sa môže skladať z viacerých inštancií ovládačov a web crawlerov. Jednotlivé časti komunikujú medzi sebou cez MPI \footnote{Message Passing Interface - rozhranie na komunikáciu medzi procesmi.} a celok sa označuje pojmom Cluster. Jednou z kľúčových vlastností Ergate je jeho schopnosť rozložiť záťaž na viacero počítačov, čo zvyšuje jeho efektivitu a umožňuje rýchlejšiu extrakciu údajov, čo vedie k výraznej úspore času v porovnaní s tradičnými paralelnými web crawlermi. Využitím distribuovaného prístupu dokáže Ergate spracovať veľké množstvo údajov, vďaka čomu je ideálny na extrahovanie informácií z webstránok s veľkým adresárom \cite{5709184}.
 
 \section{Paralelné web crawlery a spoločnosť}
 
 \paragraph{Technológia a ľudia}
 
-V nekonečne sa rozširujúcom internete, paralelné web crawlery hrajú rolu navigátorov, bez ktorých by bolo oveľa ťažšie v globalizovanom svete fungovať. Mohli by sa teda paralelné web crawlery považovať za najdôležitejšiu časť internetu? Technológia poskytuje nástroje a infraštruktúru potrebnú na paralelizáciu, čo umožňuje rozsiahle zhromažďovanie údajov. Ľudia sú však zodpovední za navrhovanie, programovanie a monitorovanie týchto nástrojov, robia kritické rozhodnutia o ich správaní a zabezpečujú, že sú v súlade s etickými zásadami. Ľudská účasť je rozhodujúca pri vytváraní algoritmov, ktoré efektívne rozdeľujú úlohy prehľadávania, spravujú oneskorenia pri extrakcií odkazov s cieľom dodržiavať pravidlá webstránok a vyhýbajú sa nadmernej spotrebe dát na sieti. Paralelné web crawlery môžeme teda považovať za nevyhnutný nástroj na využitie niečoho, čo vzniklo vďaka ľuďom, ktorí vytvorili internet. Sú súčasťou internetu, ale nie sú jeho najdôležitejšou časťou - tvoria jeden celok, ktorého časti sú rovnako dôležité.
+V nekonečne sa rozširujúcom internete paralelné web crawlery hrajú rolu navigátorov, bez ktorých by bolo oveľa ťažšie v globalizovanom svete fungovať. Mohli by sme si teda položiť otázku, či paralelné web crawlery považovať za najdôležitejšiu časť internetu. Technológia poskytuje nástroje a infraštruktúru potrebnú na paralelizáciu, čo umožňuje rozsiahle zhromažďovanie údajov. Ľudia sú však zodpovední za navrhovanie, programovanie a monitorovanie týchto nástrojov, robia kritické rozhodnutia o ich správaní a zabezpečujú, že sú v súlade s etickými zásadami. Ľudská účasť je rozhodujúca pri vytváraní algoritmov, ktoré efektívne rozdeľujú úlohy prehľadávania, spravujú oneskorenia pri extrakcii odkazov s cieľom dodržiavať pravidlá webstránok a vyhýbajú sa nadmernej spotrebe dát na sieti. Paralelné web crawlery môžeme teda považovať za nevyhnutný nástroj na využitie niečoho, čo vzniklo vďaka ľuďom, ktorí vytvorili internet. Sú súčasťou internetu, ale nie sú jeho najdôležitejšou časťou - tvoria jeden celok, ktorého časti sú rovnako dôležité.
 
 \paragraph{Spoločenské súvislosti}
 
-Paralelné web crawlery sa dajú používať aj na osobnú zábavu. Jednotlivci môžu vytvárať paralelné web crawlery na získavanie webstránok a zhromažďovanie mediálneho obsahu, ako sú obrázky, videá alebo súbory GIF, do svojich osobných zbierok. Toto použitie je bežné najmä medzi umelcami, dizajnérmi alebo nadšencami vizuálnych médií, ktorí hľadajú inšpiráciu alebo jednoducho radi budujú osobné archívy \cite{pennock2013web}. Ďalším využitím je zhromažďovanie konkrétnych informácií z viacerých zdrojov. Napríklad vedci a študenti môžu využívať paralelné web crawlery na získavanie relevantných údajov pre svoje štúdie. Umožňujú im analyzovať veľké množstvo údajov a vyvodzovať zmysluplné závery bez toho, aby museli manuálne navštevovať veľký počet webstránok, čo šetrí čas aj námahu.
+Paralelné web crawlery je možné používať aj pre osobnú zábavu. Jednotlivci môžu vytvárať paralelné web crawlery na získavanie webstránok a zhromažďovanie mediálneho obsahu, ako sú obrázky, videá alebo súbory GIF, do svojich osobných zbierok. Toto použitie je bežné najmä medzi umelcami, dizajnérmi alebo nadšencami vizuálnych médií, ktorí hľadajú inšpiráciu alebo si jednoducho radi budujú osobné archívy \cite{pennock2013web}. Ďalším využitím je zhromažďovanie konkrétnych informácií z viacerých zdrojov. Napríklad vedci a študenti môžu využívať paralelné web crawlery na získavanie relevantných údajov pre svoje výskumy a štúdie. Umožňujú im analyzovať veľké množstvo údajov a vyvodzovať zmysluplné závery bez toho, aby museli manuálne navštevovať veľký počet webstránok, čo šetrí čas aj námahu.
 
 \paragraph{Udržateľnosť a etika}
 
-Napriek svojim výhodám, paralelné web crawlery predstavujú určité výzvy z etického hľadiska. Niektorí jednotlivci ich využívajú na zhromažďovanie osobných údajov, ako sú e-mailové adresy, telefónne čísla alebo profily sociálnych médií, na marketingové alebo dokonca škodlivé účely. Rozsiahlosť zhromaždených informácií teda ohrozuje súkromie používateľov, čo si vyžaduje bezpečnostné opatrenia a právne rámce na ich ochranu (ako napríklad GDPR v Európskej Únií). Okrem toho je kritické predísť neobjektívnemu obsahu a zabezpečiť presnosť a dôveryhodnosť získaných informácií. S cieľom riešiť tieto problémy, mnohé webstránky zaviedli opatrenia na obmedzenie alebo kontrolu prístupu web crawlerov, ako napríklad súbory robots.txt, CAPTCHA a rôzne časové limity \cite{thelwall2006web}.
+Napriek svojim výhodám, paralelné web crawlery predstavujú určité výzvy z etického hľadiska. Niektorí jednotlivci ich využívajú na zhromažďovanie osobných údajov, ako sú e-mailové adresy, telefónne čísla alebo profily sociálnych médií, na marketingové alebo dokonca škodlivé účely. Rozsiahlosť zhromaždených informácií teda ohrozuje súkromie používateľov, čo si vyžaduje bezpečnostné opatrenia a právne rámce na ich ochranu (ako napríklad GDPR v Európskej únii). Okrem toho je kritické predísť neobjektívnemu obsahu a zabezpečiť presnosť a dôveryhodnosť získaných informácií. Aby sa predišlo takýmto problémom, mnohé webstránky zaviedli opatrenia na obmedzenie alebo kontrolu prístupu web crawlerov, ako napríklad súbory robots.txt, CAPTCHA a rôzne časové limity \cite{thelwall2006web}.
 
 \section{Záver}
 
-Tento článok poskytol informácie o používaní paralelných web crawlerov a ich optimalizácii, pričom sme sa venovali aj obavám súvisiacim s vplyvom tejto technológie na jednotlivé webstránky. Celkovo sa v článku zdôraznilo, že pri využívaní tejto technológie je dôležité zvážiť jej vplyv na jednotlivé webstránky, ako aj na širšiu spoločnosť.
+Tento článok priniesol niekoľko zásadných informácií o používaní paralelných web crawlerov a ich optimalizácii, pričom sa venoval aj obavám súvisiacim s vplyvom tejto technológie na jednotlivé webstránky. Špeciálny dôraz kládol na skutočnosť, že pri využívaní tejto technológie je dôležité zvážiť jej vplyv na jednotlivé webstránky, ako aj na širší spoločenský kontext.
 
 \newpage
 
