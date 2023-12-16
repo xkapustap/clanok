@@ -1,0 +1,89 @@
+commit ec5516ee13059c29d1d7086541737e60b81080cb
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Tue Nov 14 01:17:45 2023 +0100
+
+    SCRUM-18,8 Pridaný BibTex a PDF
+
+commit 9bb3c688627bb5c8396b0d3eead7fa4ffeeda34a
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Tue Nov 14 00:46:12 2023 +0100
+
+    SCRUM-16,7 Udržateľnosť a etika + nadpis
+
+commit 42be380e2e159972652a0c2b46477ed882ec9606
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Mon Nov 13 22:32:56 2023 +0100
+
+    SCRUM-17,6 Spoločenské súvislosti
+
+commit 2aac229037e78b34f17ca60e7d23374ce6e31d2e
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Mon Nov 13 18:46:43 2023 +0100
+
+    SCRUM-10,5 Technológia a ľudia
+
+commit 8225ea4ad249a2bc89c4dd1e46c709ea9da58fcf
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Sun Nov 12 14:23:00 2023 +0100
+
+    SCRUM-9,4 Ergate a záver
+
+commit cc11392ae1e9816aa48633acfb7857c7472f8559
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Thu Nov 9 12:28:40 2023 +0100
+
+    SCRUM-13,3 Pridaný PDF súbor po kompilácií
+
+commit ea318b0349e15b468633d14e5c0c4c7b60e697d2
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Thu Nov 9 12:27:47 2023 +0100
+
+    SCRUM-14,2 Pridaný súbor BibTex
+
+commit e7cc9736dd49b39208b29d3780dd4723f4163d97
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Thu Nov 9 12:27:20 2023 +0100
+
+    SCRUM-12,1 Pridaný graf
+
+commit 6539eb3e3872f1eb5df6c2ec43921de5b574fd5d
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Thu Nov 9 12:05:56 2023 +0100
+
+    Dokončenie predbežnej verzie
+
+commit babe845c58d63c4ab020c190dd697480e4c9e6e5
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Thu Oct 19 17:28:16 2023 +0200
+
+    Pridaná matica a postupnosť
+
+commit f08bf287e4b8877483fdfd158c245471390c3c3b
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Thu Oct 19 16:44:11 2023 +0200
+
+    Zmena na dvojstlpcový dokument
+
+commit 32cfe9c1d2eb2c92829fd658d1c41eae88a1d6b8
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Thu Oct 19 16:42:18 2023 +0200
+
+    Pridaný diagram 2, vedľa diagramu 1
+
+commit b81dd101fce99c0ee710dd7ab371a93da7171104
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Thu Oct 19 16:19:41 2023 +0200
+
+    Pridaný diagram 1
+
+commit 5183d2becf5a44fab6ba3fbc602b2ad3b16c562a
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Thu Oct 19 13:20:18 2023 +0200
+
+    Náčrt nových odsekov
+
+commit 504c83b0f35fd48284a66fdfe5788aff01f8bcac
+Author: Peter Kapusta <xkapustap@stuba.sk>
+Date:   Thu Oct 12 13:50:13 2023 +0200
+
+    Prvý commit
